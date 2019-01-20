@@ -1,50 +1,65 @@
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
+  font-family: 14px "Arial Black", Gadget, sans-serif;
   margin: 20px;
+  background-color: #151515
 }
 
-ol, ul {
-  padding-left: 30px;
+.row {
+  display: flex;
 }
 
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
+.column {
+  display: flex;
+  flex: 20%;
+  padding: 10px;
+  color: white;
 }
 
-.status {
-  margin-bottom: 10px;
-}
-
-.square {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 150px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 200px;
-  width: 200px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
+.attribution {
+  color: white;
   text-align: center;
 }
 
-.square:focus {
-  outline: none;
+.title {
+  font-family: "Arial Black", Gadget, sans-serif;
+  color: white;
+  font-size: 32px;
+  padding: 16px 32px;
+  cursor: pointer;
+  text-align: center;
 }
 
-.kbd-navigation .square:focus {
-  background: #ddd;
+.image {
+  opacity: 1;
+  display: block;
+  width: 95%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+  cursor: pointer;
 }
 
-.game {
-  display: flex;
-  flex-direction: row;
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
 }
 
-.game-info {
-  margin-left: 20px;
+.container {
+  position: relative;
+  width: 50%;
+  text-align: center;
+}
+
+.container:hover .image {
+  opacity: 0.3;
+}
+
+.container:hover .middle {
+  opacity: 1;
 }
