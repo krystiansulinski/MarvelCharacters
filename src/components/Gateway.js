@@ -1,80 +1,72 @@
 import React, { Component } from 'react';
 import Row from "./Row";
-import { getGrouping, getRandomLetter } from "../utils/index"
+import { getGrouping, getRandomLetter, getLoadingIndicator, getGroupingFallback } from "../utils/index";
 
 class Gateway extends Component {
   constructor(props) {
     super(props);
+    this.publicKey = "apikey=5e70238c76e414c5a82a0abffe62b24c";
+    this.charactersUrl = "https://gateway.marvel.com:443/v1/public/characters?";
     this.state = {
-      publicKey: "apikey=5e70238c76e414c5a82a0abffe62b24c",
-      getCharactersUrl: "https://gateway.marvel.com:443/v1/public/characters?",
       isLoading: true,
-      currentLetter: "a",
-      // error: false,
-      // hasMore: true,
-      // result: [],
+      error: false,
+      hasMore: true,
+      result: null,
+      currentLetter: null,
     };
-
-    //   // Infinite scrolling to be continued...
-    //   window.onscroll = () => {
-    //     if (this.state.error || this.state.isLoading || !this.state.hasMore) { return };
-    //     const element = document.documentElement;
-    //     if (window.innerHeight + element.scrollTop === element.offsetHeight) {
-    //       this.loadData();
-    //     }
-    //   };
-    // }
-
-    // loadData() {
-    //   this.setState({ isLoading: true }, () => {
-    //     fetch(this.getUrl())
-    //       .then(response => response.json())
-    //       .then(json => {
-    //         this.setState({
-    //           isLoading: false,
-    //           result: json,
-    //           hasMore: this.state.currentLetter !== "z",
-    //         })
-    //       }).catch(err => {
-    //         this.setState({
-    //           error: err.message,
-    //           isLoading: false,
-    //         });
-    //       })
-    //   });
   }
 
-  componentWillMount() {
-    const uri = this.state.getCharactersUrl + "nameStartsWith=" + getRandomLetter() + "&" + this.state.publicKey;
-    fetch(uri).then(response => response.json())
-      .then(json => this.setState({ isLoading: false, result: json }));
+  async componentWillMount() {
+    const randomLetter = getRandomLetter();
+    this.setState({ currentLetter: randomLetter });
+
+    const uri = this.charactersUrl + "nameStartsWith=" + randomLetter + "&" + this.publicKey;
+    const response = await fetch(uri);
+    const json = await response.json();
+    this.setState({
+      isLoading: false,
+      result: json,
+      error: response.status !== 200,
+    });
   }
 
-  renderRows(requestResult) {
-    if (requestResult && requestResult.data) {
-      const result = requestResult.data.results;
-      const [row, col] = [4, result.length / 4];
+  renderRows() {
+    const result = this.state.result.data.results;
+    if (!this.state.error && result.length) {
+      const [row, col] = [result.length / 5, result.length / 4];
       return (
         <div>
-          {getGrouping(result, row, col).map(char => (
-            <Row
-              characters={[char[0], char[1], char[2], char[3], char[4]]}
-              name={char[0] % col}
-            />
-          ))}
+          {getGrouping(result, row, col).map(chars =>
+            chars[0] ?
+              <Row
+                key={chars[0] % col}
+                name={chars[0] % col}
+                chars={chars}
+              />
+              : "")}
         </div>
       );
     }
   }
 
-  render() {
-    const { isLoading, result /*, hasMore*/ } = this.state;
+  renderRowsFallback() {
     return (
       <div>
-        {isLoading ? <h1 data-text={"......................."} className="center"><div className="......................."></div></h1> : this.renderRows(result)}
-        {/* {!hasMore &&
-          <div>The End</div>
-        } */}
+        {getGroupingFallback().map(chars =>
+          chars[0] ?
+            <Row
+              key={chars[0].name}
+              chars={chars}
+            />
+            : "")}
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.isLoading ? getLoadingIndicator() : this.state.error ? this.renderRowsFallback() : this.renderRows()}
       </div>
     );
   }

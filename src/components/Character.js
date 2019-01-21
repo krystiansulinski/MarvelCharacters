@@ -2,27 +2,31 @@ import React, { Component } from 'react';
 
 class Character extends Component {
   render() {
-    return (
-      <div className="container">
-        <div key={this.props.name}>
-          <img
-            className="column image"
-            src={this.props.src}
-            alt={this.props.name}
-            onClick={() => window.open(this.props.url)}
-            onTap={() => window.open(this.props.url)}>
-          </img>
+    if (this.props) {
+      const [url, name, src] = [this.props.url, this.props.name, this.props.src];
+      if (url && name && src) {
+        return (
+          <div className="container">
+            <img
+              alt={name}
+              className="column image"
+              src={src}
+              onClick={() => window.open(url)}
+              onTap={() => window.open(url)}>
+            </img>
 
-          <div class="middle">
-            <div class="title"
-              onClick={() => window.open(this.props.url)}
-              onTap={() => window.open(this.props.url)}>
-              {this.props.name}
+            <div className="middle">
+              <div
+                className="title"
+                onClick={() => window.open(url)}
+                onTap={() => window.open(url)}>
+                {name}
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    );
+        );
+      }
+    }
   }
 }
 

@@ -67,26 +67,24 @@ body {
   opacity: 1;
 }
 
+h1 {
+  position: relative;
+  color: #151515;
+  top: 25%;
+  font-size: 20em;
+}
+
 h1:before {
   content: attr(data-text);
   position: absolute;
   overflow: hidden;
   max-width: 7em;
   white-space: nowrap;
-  color: white;
-  text-align: center;
+  color: red;
   animation: loading 8s linear;
 }
 @keyframes loading {
   0% {
       max-width: 0;
   }
-}
-
-h1 {
-  left: 35%;
-  right: 35%;
-  top: 25%;
-  color:red;
-  font-size: 20em;
 }
