@@ -18,6 +18,9 @@ body {
 .attribution {
   color: white;
   text-align: center;
+  position:fixed;
+  bottom:0;
+  left: 43%;
 }
 
 .title {
@@ -62,4 +65,28 @@ body {
 
 .container:hover .middle {
   opacity: 1;
+}
+
+h1:before {
+  content: attr(data-text);
+  position: absolute;
+  overflow: hidden;
+  max-width: 7em;
+  white-space: nowrap;
+  color: white;
+  text-align: center;
+  animation: loading 8s linear;
+}
+@keyframes loading {
+  0% {
+      max-width: 0;
+  }
+}
+
+h1 {
+  left: 35%;
+  right: 35%;
+  top: 25%;
+  color:red;
+  font-size: 20em;
 }

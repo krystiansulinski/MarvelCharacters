@@ -1,45 +1,59 @@
 import React, { Component } from 'react';
 import Row from "./Row";
-import { getGrouping } from "../utils/index"
-// import InfiniteScroll from 'react-infinite-scroller';
+import { getGrouping, getRandomLetter } from "../utils/index"
 
 class Gateway extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      data: null,
+      publicKey: "apikey=5e70238c76e414c5a82a0abffe62b24c",
+      getCharactersUrl: "https://gateway.marvel.com:443/v1/public/characters?",
+      isLoading: true,
       currentLetter: "a",
+      // error: false,
+      // hasMore: true,
+      // result: [],
     };
+
+    //   // Infinite scrolling to be continued...
+    //   window.onscroll = () => {
+    //     if (this.state.error || this.state.isLoading || !this.state.hasMore) { return };
+    //     const element = document.documentElement;
+    //     if (window.innerHeight + element.scrollTop === element.offsetHeight) {
+    //       this.loadData();
+    //     }
+    //   };
+    // }
+
+    // loadData() {
+    //   this.setState({ isLoading: true }, () => {
+    //     fetch(this.getUrl())
+    //       .then(response => response.json())
+    //       .then(json => {
+    //         this.setState({
+    //           isLoading: false,
+    //           result: json,
+    //           hasMore: this.state.currentLetter !== "z",
+    //         })
+    //       }).catch(err => {
+    //         this.setState({
+    //           error: err.message,
+    //           isLoading: false,
+    //         });
+    //       })
+    //   });
   }
 
-  componentDidMount() {
-    this.fetchData("https://gateway.marvel.com:443/v1/public/characters?apikey=5e70238c76e414c5a82a0abffe62b24c");
-  }
-
-  loadMore() {
-    this.fetchData("https://gateway.marvel.com:443/v1/public/characters?nameStartsWith="
-      + this.getNextLetter() + "bapikey=5e70238c76e414c5a82a0abffe62b24c");
-  }
-
-  fetchData(url) {
-    return fetch(url).then(response => response.json())
-      .then(json => this.setState({ loading: false, data: json }));
-  }
-
-  getNextLetter() {
-    const letter = this.state.currentLetter;
-    this.setState({ currentLetter: letter <= "z".charCodeAt(0) ? String.fromCharCode(letter.charCodeAt(0) + 1) : "a" });
-    return this.state.currentLetter;
+  componentWillMount() {
+    const uri = this.state.getCharactersUrl + "nameStartsWith=" + getRandomLetter() + "&" + this.state.publicKey;
+    fetch(uri).then(response => response.json())
+      .then(json => this.setState({ isLoading: false, result: json }));
   }
 
   renderRows(requestResult) {
-    if (requestResult.data) {
+    if (requestResult && requestResult.data) {
       const result = requestResult.data.results;
-      console.log("res ", result);
-
       const [row, col] = [4, result.length / 4];
-
       return (
         <div>
           {getGrouping(result, row, col).map(char => (
@@ -54,18 +68,14 @@ class Gateway extends Component {
   }
 
   render() {
-    const { loading, data } = this.state;
+    const { isLoading, result /*, hasMore*/ } = this.state;
     return (
-      // <InfiniteScroll
-      //   pageStart={0}
-      //   loadMore={loadFunc}
-      //   hasMore={true || false}
-      //   loader={<div className="loader" key={0}>Loading ...</div>}
-      // >
       <div>
-        {loading ? "Loading..." : this.renderRows(data)}
+        {isLoading ? <h1 data-text={"......................."} className="center"><div className="......................."></div></h1> : this.renderRows(result)}
+        {/* {!hasMore &&
+          <div>The End</div>
+        } */}
       </div>
-      // </InfiniteScroll >
     );
   }
 }
