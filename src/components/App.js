@@ -5,6 +5,7 @@ import { getLoadingIndicator } from "../utils/index";
 import MyPagination from "./MyPagination";
 import MyFooter from "./MyFooter";
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +30,9 @@ class App extends Component {
   render() {
     let elements = [];
     if (this.state && this.state.api) {
-      elements.push(<Characters key="characters" api={this.state.api} />);
+      elements.push(<Characters key="characters"
+        api={this.state.api}
+        onClick={this.handleShow} />);
       elements.push(<MyPagination key="myPagination"
         changePage={this.changePage}
         api={this.state.api} />);

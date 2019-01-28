@@ -2,12 +2,12 @@ import sampleResponse from "../assets/sampleResponse";
 import sampleResponse2 from "../assets/sampleResponse2";
 import sampleResponse3 from "../assets/sampleResponse3";
 import sampleResponse4 from "../assets/sampleResponse4";
-import { ResponseFormat } from "./ResponseFormat";
+import sampleComics from "../assets/sampleComics";
 
 class API {
   constructor(offset) {
     this.publicKey = "apikey=5e70238c76e414c5a82a0abffe62b24c";
-    this.charactersUrl = "https://gateway.marvel.com:443/v1/public/characters?";
+    this.charactersUrl = "https://gateway.marvel.com:443/v1/public/characters";
     this.response = null;
     this.isLoading = true;
     this.offset = 0 <= offset ? offset : 0;
@@ -24,10 +24,18 @@ class API {
   }
 
   async fetch() {
-    const url = this.charactersUrl + "offset=" + this.offset + "&" + this.publicKey;
+    const url = this.charactersUrl + "?offset=" + this.offset + "&" + this.publicKey;
     const response = await fetch(url);
-    const json = (response.status === 401 && this.sampleResponse ) || await response.json();
-    this.response = new ResponseFormat(json);
+    const json = (response.status === 401 && this.sampleResponse) || await response.json();
+    this.response = json;
+    this.isLoading = false;
+  }
+
+  async fetchComics(id) {
+    const url = this.charactersUrl + "/" + id + "/comics?" + this.publicKey;
+    const response = await fetch(url);
+    const json = (response.status === 401 && sampleComics) || await response.json();
+    this.response = json;
     this.isLoading = false;
   }
 }

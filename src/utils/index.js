@@ -12,3 +12,7 @@ export function getCharacterDetails(urls) {
 export function getPicture(thumbnail) {
   return thumbnail ? thumbnail.path + "/landscape_amazing." + thumbnail.extension : "";
 }
+
+export function getPictureIncredible(thumbnail) {
+  return thumbnail ? thumbnail.path + "/landscape_incredible." + thumbnail.extension : "";
+}

@@ -28,7 +28,7 @@ class MyPagination extends Component {
   }
 
   getPagination() {
-    const p = this.state.currentPage;
+    // const p = this.state.currentPage;
     // const pagination = [<Pagination.Prev key={"prev"} onClick={() => this.goToPage(p - 1)} />];
     const pagination = [];
     const max = Math.ceil(this.total / this.state.charsPerPage);
