@@ -4,13 +4,14 @@ body {
 
 .paginationParent {
   text-align: center;
+  margin: auto 20%;
 }
 
 .pagination>li>a {
   background-color: inherit;
   font-family: 14px "Arial Black", Gadget, sans-serif;
   color: white;
-  font-size: 2vw;
+  font-size: 1vw;
   border-color: #151515;
 }
 
