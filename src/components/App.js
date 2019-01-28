@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import Characters from "./Characters";
+import Handler from "./Handler";
 import API from "./API";
 import { getLoadingIndicator } from "../utils/index";
 import MyPagination from "./MyPagination";
 import MyFooter from "./MyFooter";
-
 
 class App extends Component {
   constructor(props) {
@@ -23,14 +22,13 @@ class App extends Component {
     if (api) {
       this.setState({ api: null });
       this.setState({ api: api });
-      console.log("changePage");
     }
   }
 
   render() {
     let elements = [];
     if (this.state && this.state.api) {
-      elements.push(<Characters key="characters"
+      elements.push(<Handler key="characters"
         api={this.state.api}
         onClick={this.handleShow} />);
       elements.push(<MyPagination key="myPagination"

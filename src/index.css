@@ -7,36 +7,61 @@ body {
 }
 
 .modal {
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.8);
+  font-family: "Gill Sans", sans-serif;
+  font-size: 20px;
+  font-size: 2vh;
   position: fixed;
-  height: 80%;
-  width: 80%;
-  top: 10%;
-  left: 10%;
-  display: grid;
+  display: flex;
+  flex-wrap: column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  justify-content: flex-start;
+  border-radius: 5vh;
 }
 
-.charDescription {
-  color: cadetblue;
+.comics {
+  display: inline-grid;
 }
 
-.comicsDescription{
-  color: grey;
+.comicsImage {
+  opacity: 1;
+  transition: .5s ease;
+  cursor: pointer;
+  max-width: 30vw;
+  max-height: 60vh;
+  float: left;
+  padding: 1vh 1vh 1vh 1vh;
+
 }
 
-.paginationParent {
+.closeButton {
+  position: relative;
+  bottom: 1vw;
+}
+
+.three {
+  padding: 1.4vh;
+}
+
+.comicsTitle {
+  color: white; 
+  font-size: 2.5vh;
+  position: relative;
+  top: 1vh;
+  font-weight: bold;
   text-align: center;
-  margin: auto 20%;
+  cursor: pointer;
 }
 
-.pagination>li>a {
-  background-color: inherit;
-  font-family: 2vw "Arial Black", Gadget, sans-serif;
-  color: white;
-  font-size: 0.95vw;
-  border-color: #151515;
+.comDesc{
+  font-size: 18px;
+  text-align: left;
+  font-size: 1.5vh;
+  color: rgb(113, 113, 113);
+  flex-grow: 1;
+  padding: 1em;
 }
 
 .characters {
@@ -68,7 +93,7 @@ body {
 
 .title {
   color: white;
-  font-size: 2vw;
+  font-size: 3vh;
   font-weight: bold;
   text-align: center;
   cursor: pointer;
@@ -86,6 +111,18 @@ body {
   opacity: 1;
   transition: .5s ease;
   cursor: pointer;
+}
+
+.paginationParent {
+  text-align: center;
+  margin: auto 20%;
+}
+
+.pagination>li>a {
+  background-color: inherit;
+  font-family: "Arial Black", Gadget, sans-serif;
+  color: white;
+  border-color: #151515;
 }
 
 h1 {
